@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { UserButton } from '@clerk/nextjs';
+import { SignOutButton, UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
@@ -39,9 +39,9 @@ export default async function Home() {
             {/*)}*/}
             {userId && (
               <>
-                {/*<Button>*/}
-                {/*  <SignOutButton />*/}
-                {/*</Button>*/}
+                <Button>
+                  <SignOutButton />
+                </Button>
                 <Button>Go to chats</Button>
               </>
             )}
@@ -53,10 +53,10 @@ export default async function Home() {
             full potential of your research endeavors.
           </p>
           <div className={'mt-4 w-full'}>
-            {!userId ? (
+            {!!userId ? (
               <h1>fileIpload</h1>
             ) : (
-              <Link href={'/sign-up'}>
+              <Link href={'/sign-in'}>
                 <Button variant={'default'}>
                   Login to Get Started
                   <LogIn className={'ml-2 mr-2 h-4 w-4'} />
