@@ -1,5 +1,5 @@
-import { SignUp } from '@clerk/nextjs';
+import { SignIn } from '@clerk/nextjs';
 
 export default async function Home() {
-  return <SignUp path="/sign-up" />;
+  return <SignIn path="/sign-in" />;
 }
