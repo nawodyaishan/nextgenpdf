@@ -3,6 +3,7 @@ import { SignOutButton, UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
+import FileUpload from '@/components/FileUpload';
 
 export default async function Home() {
   // const router = useRouter();
@@ -54,7 +55,7 @@ export default async function Home() {
           </p>
           <div className={'mt-4 w-full'}>
             {!!userId ? (
-              <h1>fileIpload</h1>
+              <FileUpload />
             ) : (
               <Link href={'/sign-in'}>
                 <Button variant={'default'}>
