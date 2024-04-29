@@ -5,7 +5,15 @@ import { useDropzone } from 'react-dropzone';
 import { Inbox } from 'lucide-react';
 
 function FileUpload() {
-  const { getRootProps, getInputProps } = useDropzone();
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      'application/pdf': ['.pdf'],
+    },
+    maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      console.log('📁 - Accept Files:', acceptedFiles);
+    },
+  });
   return (
     <div className={'rounded-xl bg-white p-2'}>
       <div
