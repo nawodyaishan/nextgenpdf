@@ -13,7 +13,6 @@ function FileUpload() {
           className:
             'border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 flex justify-center items-center flex-col',
         })}
-        className={''}
       >
         <input {...getInputProps()} />
         <>
