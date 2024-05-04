@@ -11,6 +11,7 @@ export abstract class EnvUtils {
   }
 
   public static readString(key: string): string {
+    console.log('Fetching environment variable for key:', key, 'Value:', process.env[key]);
     return process.env[key] ?? '';
   }
 
