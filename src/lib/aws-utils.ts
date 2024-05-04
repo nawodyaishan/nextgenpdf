@@ -7,13 +7,20 @@ export abstract class AwsUtilsLib {
    * Uploads a file to Amazon S3.
    *
    * @param {File} fileToUpload The file to upload.
+   * @param onProgress
    * @returns {Promise<FileUploadResponse>} A promise that resolves to an object containing the uploaded file's key and name.
    * @throws {Error} If there is an error during the upload process.
    */
-  public static async uploadToAwsS3(fileToUpload: File): Promise<Awaited<FileUploadResponse>> {
+  public static async uploadToAwsS3(
+    fileToUpload: File,
+    onProgress: (percent: number) => void,
+  ): Promise<Awaited<FileUploadResponse>> {
     console.log('📁 - Uploading file To Aws S3', fileToUpload.name);
     try {
       AWS.config.update({ credentials: AwsConfig.awsCredentials });
+      console.log('AWS Bucket Name:', AwsConfig.awsS3BucketName);
+      console.log('AwsConfig.awsCredentials:', AwsConfig.awsCredentials);
+
       const s3Service = new AWS.S3({
         params: {
           Bucket: AwsConfig.awsS3BucketName,
@@ -29,9 +36,9 @@ export abstract class AwsUtilsLib {
       const uploadPromise = s3Service
         .putObject(putObjectParams)
         .on('httpUploadProgress', (event) => {
-          console.log(
-            `🚀 - Uploading to S3 Bucket.... ${parseInt(((event.loaded * 100) / event.total).toString())}%`,
-          );
+          const percent = Math.floor((event.loaded * 100) / event.total);
+          console.log(`🚀 - Uploading to S3 Bucket.... ${percent}%`);
+          onProgress(percent); // Call the callback function with the calculated progress
         })
         .promise();
 
