@@ -1,21 +1,13 @@
 import { Button } from '@/components/ui/button';
-import { SignOutButton, UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
 import FileUpload from '@/components/FileUpload';
+import React from 'react';
 
 export default async function Home() {
-  // const router = useRouter();
   const { userId } = auth();
-
-  // const navigateToSignUp = () => {
-  //   router.push('/sign-up');
-  // };
-  //
-  // const navigateToSignIn = () => {
-  //   router.push('/sign-in');
-  // };
 
   return (
     <div
@@ -32,17 +24,8 @@ export default async function Home() {
             <UserButton afterSignOutUrl="/sign-up" />
           </div>
           <div className={'mt-2 flex space-x-4'}>
-            {/*{isAuth && (*/}
-            <>
-              {/*<Button onClick={navigateToSignUp}>Sign Up</Button>*/}
-              {/*<Button onClick={navigateToSignIn}>Sign In</Button>*/}
-            </>
-            {/*)}*/}
             {userId && (
               <>
-                <Button>
-                  <SignOutButton />
-                </Button>
                 <Button>Go to chats</Button>
               </>
             )}
@@ -69,7 +52,4 @@ export default async function Home() {
       </div>
     </div>
   );
-}
-function currentUser() {
-  throw new Error('Function not implemented.');
 }
