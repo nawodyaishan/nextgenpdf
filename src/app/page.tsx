@@ -5,17 +5,15 @@ import Link from 'next/link';
 import { LogIn } from 'lucide-react';
 import FileUpload from '@/components/FileUpload';
 import React from 'react';
+import useDynamicTheme from '@/hooks/use-dynamic-theme';
 
 export default async function Home() {
   const { userId } = auth();
+  const { bgGradient, textColor, buttonColor } = useDynamicTheme();
 
   return (
-    <div
-      className={
-        'min-h-screen w-screen bg-gradient-to-tr from-green-300 via-blue-500 to-purple-600'
-      }
-    >
-      <div className={'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'}>
+    <div className={`min-h-screen w-screen bg-gradient-to-tr ${bgGradient}`}>
+      <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${textColor}`}>
         <div className={'flex flex-col items-center text-center'}>
           <div className={'spa flex items-center space-x-4'}>
             <h1 className={'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl '}>
@@ -26,7 +24,7 @@ export default async function Home() {
           <div className={'mt-2 flex space-x-4'}>
             {userId && (
               <>
-                <Button>Go to chats</Button>
+                <Button className={`${buttonColor} text-white`}>Go to chats</Button>
               </>
             )}
           </div>
@@ -41,7 +39,7 @@ export default async function Home() {
               <FileUpload />
             ) : (
               <Link href={'/sign-in'}>
-                <Button variant={'default'}>
+                <Button className={`${buttonColor} text-white`} variant={'default'}>
                   Login to Get Started
                   <LogIn className={'ml-2 mr-2 h-4 w-4'} />
                 </Button>

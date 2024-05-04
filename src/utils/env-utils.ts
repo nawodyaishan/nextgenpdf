@@ -1,22 +1,38 @@
-import _ from 'lodash';
-
 export abstract class EnvUtils {
-  public static readBool(key: string): boolean {
-    const rawValue = process.env[key];
-    if (!rawValue) return false;
-    if (rawValue?.toLowerCase()?.trim() === 'false') return false;
-    if (rawValue?.toLowerCase()?.trim() === 'no') return false;
-    if (rawValue?.toLowerCase()?.trim() === 'off') return false;
-    return !!_.toNumber(rawValue);
+  /**
+   * Reads an environment variable as a string and throws if not found.
+   * @param key The environment variable key.
+   * @returns The environment variable value.
+   */
+  public static getString(key: string): string {
+    const value = process.env[key];
+    if (!value) {
+      throw new Error(`Environment variable ${key} is not set.`);
+    }
+    return value;
   }
 
-  public static readString(key: string): string {
-    console.log('Fetching environment variable for key:', key, 'Value:', process.env[key]);
-    return process.env[key] ?? '';
+  /**
+   * Reads an environment variable as a boolean.
+   * @param key The environment variable key.
+   * @returns The environment variable value converted to boolean.
+   */
+  public static getBoolean(key: string): boolean {
+    const value = this.getString(key).toLowerCase();
+    return value === 'true' || value === 'yes' || value === '1';
   }
 
-  public static readNumber(key: string, ifNaN = 0): number {
-    const raw = _.toNumber(process.env[key]);
-    return _.isNaN(raw) ? ifNaN : raw;
+  /**
+   * Reads an environment variable as a number and throws if not a number.
+   * @param key The environment variable key.
+   * @returns The environment variable value converted to number.
+   */
+  public static getNumber(key: string): number {
+    const value = this.getString(key);
+    const number = Number(value);
+    if (isNaN(number)) {
+      throw new Error(`Environment variable ${key} is not a valid number.`);
+    }
+    return number;
   }
 }
