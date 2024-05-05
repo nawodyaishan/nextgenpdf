@@ -2,12 +2,10 @@ import { Pinecone } from '@pinecone-database/pinecone';
 import { PineconeConfig } from '@/config/pinecone-config';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { AwsUtilsLib } from '@/lib/aws-utils-lib';
+import { PdfPage } from '@/types/pdf-page';
 
 export class PineconeUtilsLib {
   private static pineconeClient: Pinecone | null = null;
-
-  // Private constructor to prevent instantiation
-  private constructor() {}
 
   /**
    * Returns the singleton instance of the Pinecone client.
@@ -32,7 +30,7 @@ export class PineconeUtilsLib {
     try {
       const downloadedFileName = await AwsUtilsLib.downloadFileFromS3(fileKey, fileName, fs);
       const langchainPdfLoader = new PDFLoader(downloadedFileName);
-      return await langchainPdfLoader.load();
+      return (await langchainPdfLoader.load()) as PdfPage[];
     } catch (error: any) {}
   }
 }

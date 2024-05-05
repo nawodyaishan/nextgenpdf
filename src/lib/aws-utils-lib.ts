@@ -6,9 +6,6 @@ import { AwsConfig } from '@/config/aws-config';
 export abstract class AwsUtilsLib {
   private static s3Service: S3 | null = null;
 
-  // Make the constructor private to prevent instantiation.
-  private constructor() {}
-
   /**
    * Initializes the S3 service if it hasn't been initialized yet.
    * Ensures that only one instance of the S3 service is created (singleton pattern).
