@@ -9,11 +9,11 @@ import useDynamicTheme from '@/hooks/use-dynamic-theme';
 
 export default async function Home() {
   const { userId } = auth();
-  const { bgGradient, textColor, buttonColor } = useDynamicTheme();
+  const { bgGradient } = useDynamicTheme();
 
   return (
     <div className={`min-h-screen w-screen bg-gradient-to-tr ${bgGradient}`}>
-      <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${textColor}`}>
+      <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`}>
         <div className={'flex flex-col items-center text-center'}>
           <div className={'spa flex items-center space-x-4'}>
             <h1 className={'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl '}>
@@ -24,7 +24,7 @@ export default async function Home() {
           <div className={'mt-2 flex space-x-4'}>
             {userId && (
               <>
-                <Button className={`${buttonColor} text-white`}>Go to chats</Button>
+                <Button className={`text-white`}>Go to chats</Button>
               </>
             )}
           </div>
@@ -39,7 +39,7 @@ export default async function Home() {
               <FileUpload />
             ) : (
               <Link href={'/sign-in'}>
-                <Button className={`${buttonColor} text-white`} variant={'default'}>
+                <Button className={`text-white`} variant={'default'}>
                   Login to Get Started
                   <LogIn className={'ml-2 mr-2 h-4 w-4'} />
                 </Button>
