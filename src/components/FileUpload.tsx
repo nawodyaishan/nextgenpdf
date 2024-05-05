@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Inbox, Loader2 } from 'lucide-react';
 import { FileHelpers } from '@/helpers/file-helpers';
-import { AwsUtilsLib } from '@/lib/aws-utils';
 import { Bounce, toast } from 'react-toastify';
 import { Progress } from '@/components/ui/progress';
 import useDataStore from '@/stores/data-store';
+import { AwsUtilsLib } from '@/lib/aws-utils-lib';
 
 function FileUpload() {
   const [progress, setProgress] = useState<number>(0);

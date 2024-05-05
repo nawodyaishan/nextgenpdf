@@ -1,7 +1,7 @@
 import { Bounce, toast } from 'react-toastify';
 
 export abstract class FileHelpers {
-  static validateFileSize(file: File, maxSize: number): boolean {
+  public static validateFileSize(file: File, maxSize: number): boolean {
     if (file.size > maxSize) {
       toast.error(
         'File size is too large (max ' +
@@ -22,5 +22,11 @@ export abstract class FileHelpers {
       return false;
     }
     return true;
+  }
+
+  public static async loadS3IntoPinecone(fileKey: string, fileName: string) {
+    // 1. Obtain the pdf -- download and read from pdf
+    try {
+    } catch (error: any) {}
   }
 }

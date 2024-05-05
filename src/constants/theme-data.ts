@@ -27,13 +27,13 @@ export const themes: Themes[] = [
   },
   {
     name: 'late afternoon',
-    bgGradient: 'from-purple-400 via-pink-500 to-red-600',
+    bgGradient: 'from-purple-400 via-blue-500 to-red-600',
     textColor: 'text-gray-300',
     buttonColor: 'bg-pink-200',
   },
   {
     name: 'evening',
-    bgGradient: 'from-purple-600 via-pink-500 to-red-500',
+    bgGradient: 'from-purple-600 via-blue-500 to-red-500',
     textColor: 'text-gray-300',
     buttonColor: 'bg-red-200',
   },
