@@ -14,4 +14,5 @@ export interface CreateChatResponse {
   fileName: string;
   status: number;
   isSuccess: boolean;
+  pages?: any;
 }

@@ -23,10 +23,4 @@ export abstract class FileHelpers {
     }
     return true;
   }
-
-  public static async loadS3IntoPinecone(fileKey: string, fileName: string) {
-    // 1. Obtain the pdf -- download and read from pdf
-    try {
-    } catch (error: any) {}
-  }
 }

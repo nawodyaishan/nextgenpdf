@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CreateChatPayload, CreateChatResponse } from '@/interfaces/i-data-store-state';
-import { FileHelpers } from '@/helpers/file-helpers';
+import * as fs from 'node:fs';
+import { PineconeUtilsLib } from '@/lib/pinecone-utils-lib';
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,13 +9,20 @@ export async function POST(request: NextRequest) {
     console.log('🔔 - CreateChatPayload from frontend', createChatPayload);
 
     // Logic starts here
-    await FileHelpers.loadS3IntoPinecone(createChatPayload.fileKey, createChatPayload.fileName);
+    const pages = await PineconeUtilsLib.loadS3IntoPinecone(
+      createChatPayload.fileKey,
+      createChatPayload.fileName,
+      fs,
+    );
+
+    console.log('📁 - Pages Content :', JSON.stringify(pages));
 
     const responseData: CreateChatResponse = {
       isSuccess: true,
       fileKey: createChatPayload.fileKey,
       fileName: createChatPayload.fileName,
       status: 200,
+      pages: pages,
     };
     return NextResponse.json({
       responseData,

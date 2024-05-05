@@ -1,7 +1,7 @@
 import AWS, { S3 } from 'aws-sdk';
-import { AwsConfig } from '@/config/aws-config';
+
 import { FileUploadResponse } from '@/types/file-upload-response';
-import fs from 'fs';
+import { AwsConfig } from '@/config/aws-config';
 
 export abstract class AwsUtilsLib {
   private static s3Service: S3 | null = null;
@@ -111,19 +111,29 @@ export abstract class AwsUtilsLib {
     }
   }
 
-  public static async downloadFileFromS3(fileKey: string, fileName: string) {
+  public static async downloadFileFromS3(
+    fileKey: string,
+    fileName: string,
+    fs: any,
+  ): Promise<string> {
+    const params = {
+      Bucket: AwsConfig.awsS3BucketName,
+      Key: fileKey,
+    };
     try {
-      const params = {
-        Bucket: AwsConfig.awsS3BucketName,
-        Key: fileKey,
-      };
       const s3 = await this.getS3Service();
       const downloadedFileName = `/tmp/pdf-${fileName}-${Date.now()}.pdf`;
       const s3Object = await s3.getObject(params).promise();
-      fs.writeFileSync(downloadedFileName, s3Object.Body as Buffer);
-    } catch (error: any) {
+      try {
+        fs.writeFileSync(downloadedFileName, s3Object.Body as Buffer);
+      } catch (error: unknown) {
+        console.error('Error writing downloaded File From S3:', error);
+        throw new Error('Failed to write file');
+      }
+      return downloadedFileName;
+    } catch (error: unknown) {
       console.error('Error downloading File From S3:', error);
-      throw error;
+      throw new Error('Failed to download file from S3');
     }
   }
 }

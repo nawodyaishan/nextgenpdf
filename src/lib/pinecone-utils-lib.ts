@@ -1,5 +1,7 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import { PineconeConfig } from '@/config/pinecone-config';
+import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
+import { AwsUtilsLib } from '@/lib/aws-utils-lib';
 
 export class PineconeUtilsLib {
   private static pineconeClient: Pinecone | null = null;
@@ -23,5 +25,14 @@ export class PineconeUtilsLib {
       }
     }
     return this.pineconeClient;
+  }
+
+  // Reading content in the pdf
+  public static async loadS3IntoPinecone(fileKey: string, fileName: string, fs: any) {
+    try {
+      const downloadedFileName = await AwsUtilsLib.downloadFileFromS3(fileKey, fileName, fs);
+      const langchainPdfLoader = new PDFLoader(downloadedFileName);
+      return await langchainPdfLoader.load();
+    } catch (error: any) {}
   }
 }
