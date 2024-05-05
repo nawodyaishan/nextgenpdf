@@ -1,6 +1,7 @@
 import AWS, { S3 } from 'aws-sdk';
 import { AwsConfig } from '@/config/aws-config';
 import { FileUploadResponse } from '@/types/file-upload-response';
+import fs from 'fs';
 
 export abstract class AwsUtilsLib {
   private static s3Service: S3 | null = null;
@@ -112,7 +113,17 @@ export abstract class AwsUtilsLib {
 
   public static async downloadFileFromS3(fileKey: string, fileName: string) {
     try {
+      const params = {
+        Bucket: AwsConfig.awsS3BucketName,
+        Key: fileKey,
+      };
       const s3 = await this.getS3Service();
-    } catch (error: any) {}
+      const downloadedFileName = `/tmp/pdf-${fileName}-${Date.now()}.pdf`;
+      const s3Object = await s3.getObject(params).promise();
+      fs.writeFileSync(downloadedFileName, s3Object.Body as Buffer);
+    } catch (error: any) {
+      console.error('Error downloading File From S3:', error);
+      throw error;
+    }
   }
 }
