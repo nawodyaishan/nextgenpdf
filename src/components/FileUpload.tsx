@@ -2,14 +2,17 @@
 
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Inbox } from 'lucide-react';
+import { Inbox, Loader2 } from 'lucide-react';
 import { FileHelpers } from '@/helpers/file-helpers';
 import { AwsUtilsLib } from '@/lib/aws-utils';
 import { Bounce, toast } from 'react-toastify';
 import { Progress } from '@/components/ui/progress';
+import useDataStore from '@/stores/data-store';
 
 function FileUpload() {
   const [progress, setProgress] = useState<number>(0);
+  const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
+  const { createChat, isLoading } = useDataStore();
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -17,15 +20,24 @@ function FileUpload() {
     },
     maxFiles: 1,
     onDrop: async (acceptedFiles) => {
+      setIsFileUploading(true);
       console.log('📁 - Accept Files:', acceptedFiles);
       const file = acceptedFiles[0];
-      if (!FileHelpers.validateFileSize(file, 10 * 1024 * 1024)) return;
+      if (!FileHelpers.validateFileSize(file, 10 * 1024 * 1024)) {
+        setIsFileUploading(false);
+        return;
+      }
 
       const onProgressUpdate = (progress: React.SetStateAction<number>) => {
         setProgress(progress);
       };
 
       const data = await AwsUtilsLib.uploadToAwsS3(file, onProgressUpdate);
+      const response = await createChat(data);
+      if (!response) {
+        setIsFileUploading(false);
+        return;
+      }
       console.log(`File Upload Success! : ${data.fileName}`);
       toast.success(`File Upload Success! : ${data.fileName}`, {
         position: 'top-right',
@@ -38,6 +50,8 @@ function FileUpload() {
         theme: 'dark',
         transition: Bounce,
       });
+
+      setIsFileUploading(false);
     },
   });
   return (
@@ -49,11 +63,20 @@ function FileUpload() {
         })}
       >
         <input {...getInputProps()} />
-        <>
-          <Inbox className={'h-10 w-10 text-blue-500'} />
-          <p className={'mt-2 text-sm text-slate-400'}>Drop PDF Here</p>
+        {isLoading && (
+          <>
+            <Loader2 className={'anima h-10 w-10 animate-spin text-blue-500'} />
+            <p className={'mt-2 text-sm '}>Processing data with GPT...</p>
+          </>
+        )}
+        {!isFileUploading && !isLoading ? (
+          <>
+            <Inbox className={'h-10 w-10 text-blue-500'} />
+            <p className={'mt-2 text-sm text-slate-400'}>Drop PDF Here</p>
+          </>
+        ) : (
           <Progress value={progress} className="w-[60%]" />
-        </>
+        )}
       </div>
     </div>
   );
