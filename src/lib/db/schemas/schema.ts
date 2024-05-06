@@ -1,6 +1,6 @@
 import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
-export const userSystemEnum = pgEnum('user_system_enum', ['system', 'user']);
+export const userSystemEnum = pgEnum('user_system_enum', ['system', 'user', 'assistant']);
 
 export const chatsTable = pgTable('chats', {
   id: serial('id').primaryKey(),
@@ -23,3 +23,7 @@ export const messagesTable = pgTable('messages', {
 
 // drizzle-orm
 // drizzle-kit
+
+// Exporting Types
+export type DrizzleChat = typeof chatsTable.$inferSelect;
+export type DrizzleMessage = typeof messagesTable.$inferSelect;
