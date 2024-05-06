@@ -15,7 +15,7 @@ export const themes: Themes[] = [
   },
   {
     name: 'noon',
-    bgGradient: 'from-light-blue-400 via-cyan-500 to-blue-600',
+    bgGradient: 'from-light-green-200 via-cyan-500 to-blue-700',
     textColor: 'text-white',
     buttonColor: 'bg-light-blue-200',
   },

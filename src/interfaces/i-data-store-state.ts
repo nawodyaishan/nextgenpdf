@@ -7,11 +7,13 @@ export interface IDataStoreState {
 export interface CreateChatPayload {
   fileKey: string;
   fileName: string;
+  userId: string;
 }
 
 export interface CreateChatResponse {
   fileKey: string;
   fileName: string;
+  chatId: number;
   status: number;
   isSuccess: boolean;
   pages?: any;

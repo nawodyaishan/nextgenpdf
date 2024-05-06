@@ -6,9 +6,6 @@ import { AwsConfig } from '@/config/aws-config';
 export abstract class AwsUtilsLib {
   private static s3Service: S3 | null = null;
 
-  // Make the constructor private to prevent instantiation.
-  private constructor() {}
-
   /**
    * Initializes the S3 service if it hasn't been initialized yet.
    * Ensures that only one instance of the S3 service is created (singleton pattern).
@@ -81,7 +78,7 @@ export abstract class AwsUtilsLib {
    * @returns {string} The public URL for the file.
    */
   public static getS3Url(fileKey: string) {
-    const url = `https://${AwsConfig.awsS3BucketName}.s3.${AwsConfig.awsS3BucketRegion}.amazonaws.com/${fileKey}`;
+    return `https://${AwsConfig.awsS3BucketName}.s3.${AwsConfig.awsS3BucketRegion}.amazonaws.com/${fileKey}`;
   }
 
   /**
