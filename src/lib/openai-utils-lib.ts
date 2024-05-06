@@ -61,7 +61,12 @@ export abstract class OpenaiUtilsLib {
         input: text.replace(/\n/g, ' '),
         model: openAiApiModels.TextEmbedding3Small, // Change to desired model (e.g., TextEmbedding3Large)
       });
-      return (await openAiApiResponse.json()).data[0].embedding as number[];
+      const responseJson = await openAiApiResponse.json();
+      console.log('OpenAI API response:', responseJson); // Log the full response
+      if (!responseJson.data || !responseJson.data[0] || !responseJson.data[0].embedding) {
+        throw new Error('Unexpected response structure from OpenAI API');
+      }
+      return responseJson.data[0].embedding as number[];
     } catch (error) {
       console.error('Error at getEmbeddings:', error);
       throw error;

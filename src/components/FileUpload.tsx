@@ -8,11 +8,13 @@ import { Bounce, toast } from 'react-toastify';
 import { Progress } from '@/components/ui/progress';
 import useDataStore from '@/stores/data-store';
 import { AwsUtilsLib } from '@/lib/aws-utils-lib';
+import { useAuth } from '@clerk/nextjs';
 
 function FileUpload() {
   const [progress, setProgress] = useState<number>(0);
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
   const { createChat, isLoading } = useDataStore();
+  const { userId } = useAuth();
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -32,8 +34,12 @@ function FileUpload() {
         setProgress(progress);
       };
 
+      if (!userId) {
+        console.error('User not authenticated:');
+        return;
+      }
       const data = await AwsUtilsLib.uploadToAwsS3(file, onProgressUpdate);
-      const response = await createChat(data);
+      const response = await createChat({ ...data, userId: userId });
       if (!response) {
         setIsFileUploading(false);
         return;

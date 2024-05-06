@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { CreateChatResponse, IDataStoreState } from '@/interfaces/i-data-store-state';
 import axios from 'axios';
-import { apiEndpoints } from '@/constants/ApiEndpointsData';
 import { Bounce, toast } from 'react-toastify';
+import { apiEndpoints } from '@/constants/api-endpoints-data';
 
 const useDataStore = create<IDataStoreState>((set, _get) => ({
   chatResponse: null,

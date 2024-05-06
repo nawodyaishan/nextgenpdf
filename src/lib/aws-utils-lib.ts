@@ -78,7 +78,7 @@ export abstract class AwsUtilsLib {
    * @returns {string} The public URL for the file.
    */
   public static getS3Url(fileKey: string) {
-    const url = `https://${AwsConfig.awsS3BucketName}.s3.${AwsConfig.awsS3BucketRegion}.amazonaws.com/${fileKey}`;
+    return `https://${AwsConfig.awsS3BucketName}.s3.${AwsConfig.awsS3BucketRegion}.amazonaws.com/${fileKey}`;
   }
 
   /**
