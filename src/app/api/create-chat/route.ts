@@ -20,15 +20,12 @@ export async function POST(request: NextRequest) {
         status: 401,
       });
     }
-
     console.log('📁 - Writing Pinecone Database and PDF Processing');
     const pages = await PineconeUtilsLib.loadS3IntoPinecone(
       createChatPayload.fileKey,
       createChatPayload.fileName,
       fs,
     );
-    console.log('📁 - Pages Content :', JSON.stringify(pages));
-
     console.log('📁 - Writing Database');
     const chatIds = await DatabaseService.createChat({
       pdfName: createChatPayload.fileName,
@@ -36,7 +33,6 @@ export async function POST(request: NextRequest) {
       pdfUrl: AwsUtilsLib.getS3Url(createChatPayload.fileKey),
       userId: userId,
     });
-
     const responseData: CreateChatResponse = {
       isSuccess: true,
       chatId: chatIds[0].insertedId,

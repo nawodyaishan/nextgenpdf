@@ -1,4 +1,5 @@
 import { Bounce, toast } from 'react-toastify';
+import { FileUploadingMode } from '@/types/file-uploading-mode';
 
 export abstract class FileHelpers {
   public static validateFileSize(file: File, maxSize: number): boolean {
@@ -22,5 +23,19 @@ export abstract class FileHelpers {
       return false;
     }
     return true;
+  }
+
+  public static getFileUploadingMode(isLoading: boolean, isFileUploading: boolean) {
+    if (!isLoading && !isFileUploading) {
+      return FileUploadingMode.idle;
+    } else if (!isLoading && isFileUploading) {
+      return FileUploadingMode.fileUploading;
+    } else if (isLoading && !isFileUploading) {
+      return FileUploadingMode.fileLoading;
+    } else if (isLoading && isFileUploading) {
+      return FileUploadingMode.fileUploading;
+    } else {
+      return FileUploadingMode.idle;
+    }
   }
 }
