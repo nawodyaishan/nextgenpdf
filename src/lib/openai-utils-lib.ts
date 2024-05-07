@@ -59,8 +59,16 @@ export abstract class OpenaiUtilsLib {
       const openAiApiService = await this.getOpenAiApiService();
       const openAiApiResponse = await openAiApiService.createEmbedding({
         input: text.replace(/\n/g, ' '),
-        model: openAiApiModels.TextEmbedding3Small, // Change to desired model (e.g., TextEmbedding3Large)
+        model: openAiApiModels.TextEmbedding3Small,
       });
+
+      // Ensure response is OK before processing JSON
+      if (!openAiApiResponse.ok) {
+        console.error('Non-200 response:', openAiApiResponse.status);
+        const responseText = await openAiApiResponse.text(); // Retrieve raw response to see the error
+        throw new Error(`API returned non-200 status: ${responseText}`);
+      }
+
       const responseJson = await openAiApiResponse.json();
       console.log('OpenAI API response:', responseJson); // Log the full response
       if (!responseJson.data || !responseJson.data[0] || !responseJson.data[0].embedding) {

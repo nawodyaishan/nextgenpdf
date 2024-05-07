@@ -1,3 +1,5 @@
+import { ChatCompletionRequestMessage } from 'openai-edge';
+
 export interface IDataStoreState {
   chatResponse: CreateChatResponse | null;
   isLoading: boolean;
@@ -18,3 +20,14 @@ export interface CreateChatResponse {
   isSuccess: boolean;
   pages?: any;
 }
+
+export interface ChatPayload {
+  messages: ChatCompletionRequestMessage[];
+  chatId: number;
+}
+
+// export interface ChatResponse {
+//   streamingTextResponse: StreamingTextResponse;
+//   status: number;
+//   isSuccess: boolean;
+// }

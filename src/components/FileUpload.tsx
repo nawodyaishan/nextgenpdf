@@ -102,8 +102,10 @@ function FileUpload() {
         theme: 'light',
         transition: Bounce,
       });
-      await createChat({ ...data, userId: userId });
-      if (!chatResponse) {
+      const response = await createChat({ ...data, userId: userId });
+      console.log();
+      if (!response) {
+        console.log('😢 - !response is null');
         return;
       }
       console.log(`File Processing Success! Chat Creation Success! : ${data.fileName}`);
@@ -118,7 +120,8 @@ function FileUpload() {
         theme: 'dark',
         transition: Bounce,
       });
-      push(`/chat/${chatResponse.chatId}`);
+      console.log('✅ - Pushing to /chat/id', response.chatId);
+      push(`/chat/${response.chatId}`);
     },
   });
   return (

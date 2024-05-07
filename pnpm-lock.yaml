@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@ai-sdk/openai':
+        specifier: ^0.0.9
+        version: 0.0.9(zod@3.23.4)
       '@clerk/nextjs':
         specifier: ^5.0.3
         version: 5.0.3(eslint@8.57.0)(next@14.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
@@ -173,6 +176,15 @@ importers:
         version: 5.4.5
 
 packages:
+
+  '@ai-sdk/openai@0.0.9':
+    resolution: {integrity: sha512-SSZGtX4KFDXWYmQ9JuhVumo1XOx1JAdHybYy08iwVXuCud9xdjZjjxgZkNPytQK9gRxFsYDOw1h0V/WXO7XgfQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
 
   '@ai-sdk/provider-utils@0.0.5':
     resolution: {integrity: sha512-VVy9eQS+vS2j6cqTEQ9htMHz2nW/HFAkDXLvNFPoi1pZkviknJZEzb+DZUna6Od+jBf/TVA0HZwYnyGDaeI9cQ==}
@@ -3787,6 +3799,13 @@ packages:
         optional: true
 
 snapshots:
+
+  '@ai-sdk/openai@0.0.9(zod@3.23.4)':
+    dependencies:
+      '@ai-sdk/provider': 0.0.3
+      '@ai-sdk/provider-utils': 0.0.5(zod@3.23.4)
+    optionalDependencies:
+      zod: 3.23.4
 
   '@ai-sdk/provider-utils@0.0.5(zod@3.23.4)':
     dependencies:

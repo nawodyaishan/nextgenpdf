@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { DrizzleChat } from '@/lib/db/schemas/schema';
+import { DrizzleChat } from '@/lib/db/schema';
 import { MessageCircle, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -41,6 +41,13 @@ export default function ChatSideBar({ chats, chatId, isPro }: Props) {
             </div>
           </Link>
         ))}
+      </div>
+      <div className={'absolute bottom-4 left-4'}>
+        <div className={'flex flex-wrap items-center gap-2 text-sm text-slate-500'}>
+          <Link href={'/'}>Home</Link>
+          <Link href={'/'}>Source</Link>
+          <Link href={'/'}>Stripe</Link>
+        </div>
       </div>
     </div>
   );

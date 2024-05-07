@@ -1,24 +1,23 @@
 'use client';
 
 import * as React from 'react';
-import { DrizzleMessage } from '@/lib/db/schemas/schema';
-import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Message } from 'ai/react';
 
 type Props = {
-  isLoading: boolean;
-  messages: DrizzleMessage[];
+  // isLoading: boolean;
+  messages: Message[];
 };
 
-export default function MessageList({ messages, isLoading }: Props) {
-  if (isLoading) {
-    return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <Loader2 className="h-6 w-6 animate-spin" />
-      </div>
-    );
-  }
-  if (!messages) return <></>;
+export default function MessageList({ messages /*isLoading*/ }: Props) {
+  // if (isLoading) {
+  //   return (
+  //     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+  //       <Loader2 className="h-6 w-6 animate-spin" />
+  //     </div>
+  //   );
+  // }
+  // if (!messages) return <></>;
   return (
     <div className="flex flex-col gap-2 px-4">
       {messages.map((message) => {
