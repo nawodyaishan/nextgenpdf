@@ -105,4 +105,45 @@ export class PineconeUtilsLib {
       throw new Error(`Error convertToAscii: ${error}`);
     }
   }
+
+  public static async getContext(query: string, fileKey: string) {
+    try {
+      const queryEmbeddings = await OpenaiUtilsLib.getEmbeddings(query);
+      // console.log('🛑 - queryEmbeddings', queryEmbeddings);
+      const matches = await this.getMatchesFromEmbeddings(queryEmbeddings, fileKey);
+      // console.log('🛑 - matches', matches);
+      const qualifyingDocs = matches.filter((match) => match.score && match.score > 0.2);
+      // console.log('🛑 - qualifyingDocs', qualifyingDocs);
+
+      type Metadata = {
+        text: string;
+        pageNumber: number;
+      };
+
+      let docs: string[] = qualifyingDocs.map((match) => (match.metadata as Metadata).text);
+      // console.log('🛑 - docs', docs);
+      return docs.join('\n').substring(0, 3000);
+    } catch (error: unknown) {
+      console.error('Error getContext:', error);
+      throw new Error(`Error getContext: ${error}`);
+    }
+  }
+
+  public static async getMatchesFromEmbeddings(embeddings: number[], fileKey: string) {
+    try {
+      const pinecone = this.getPineconeClient();
+      const namespace = this.convertToAscii(fileKey);
+      const index = pinecone.Index(PineconeConfig.pineconeDbIndex);
+      const queryResult = await index.namespace(namespace).query({
+        topK: 5,
+        vector: embeddings,
+        includeMetadata: true,
+      });
+
+      return queryResult.matches || [];
+    } catch (error: unknown) {
+      console.error('Error getMatchesFromEmbeddings:', error);
+      throw new Error(`Error getMatchesFromEmbeddings: ${error}`);
+    }
+  }
 }

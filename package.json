@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "db:push": "npx drizzle-kit push:pg"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.9",
     "@clerk/nextjs": "^5.0.3",
     "@hookform/resolvers": "^3.3.4",
     "@neondatabase/serverless": "^0.9.1",

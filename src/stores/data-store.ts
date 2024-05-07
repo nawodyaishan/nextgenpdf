@@ -27,16 +27,16 @@ const useDataStore = create<IDataStoreState>((set, _get) => ({
       }
       console.log('🚀 - Create Chat payload', payload);
       const response = await axios.post(apiEndpoints.createChat, payload);
-      console.log('🙌🏻 - response data from createChat post call ', response.data);
-      if (!response.data) {
+      console.log('🙌🏻 - response from createChat post call ', response);
+      if (!response.data.responseData) {
         set({ isLoading: false });
         return false;
       }
       set({
-        chatResponse: response.data as CreateChatResponse,
+        chatResponse: response.data.responseData as CreateChatResponse,
         isLoading: false,
       });
-      return response.data as CreateChatResponse;
+      return response.data.responseData as CreateChatResponse;
     } catch (error: any) {
       console.error('Error during creating chat using file :', error);
       toast.error(`Error during creating Chat!`, {

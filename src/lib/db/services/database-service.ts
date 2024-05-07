@@ -1,8 +1,8 @@
-import { neon, neonConfig } from '@neondatabase/serverless';
+import { neon } from '@neondatabase/serverless';
 import { AppConfig } from '@/config/app-config';
 import { drizzle, NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import { ChatDTO } from '@/interfaces/dtos';
-import { chatsTable } from '@/lib/db/schemas/schema';
+import { chatsTable } from '@/lib/db/schema';
 
 export class DatabaseService {
   private static neonHttpDatabase: NeonHttpDatabase | null = null;
@@ -14,7 +14,6 @@ export class DatabaseService {
   public static getNeonHttpDatabase(): NeonHttpDatabase {
     if (!this.neonHttpDatabase) {
       try {
-        neonConfig.fetchConnectionCache = true;
         const postgresSql = neon(AppConfig.neonDbUrl);
         this.neonHttpDatabase = drizzle(postgresSql);
       } catch (error: any) {

@@ -10,11 +10,13 @@ import useDataStore from '@/stores/data-store';
 import { AwsUtilsLib } from '@/lib/aws-utils-lib';
 import { useAuth } from '@clerk/nextjs';
 import { FileUploadingMode } from '@/types/file-uploading-mode';
+import { useRouter } from 'next/navigation';
 
 function FileUpload() {
+  const { push } = useRouter();
   const [progress, setProgress] = useState<number>(0);
   const [isFileUploading, setIsFileUploading] = useState<boolean>(false);
-  const { createChat, isLoading } = useDataStore();
+  const { createChat, isLoading, chatResponse } = useDataStore();
   const { userId } = useAuth();
   const [fileUploadingMode, setFileUploadingMode] = useState<FileUploadingMode>(
     FileUploadingMode.idle,
@@ -101,11 +103,13 @@ function FileUpload() {
         transition: Bounce,
       });
       const response = await createChat({ ...data, userId: userId });
+      console.log();
       if (!response) {
+        console.log('😢 - !response is null');
         return;
       }
-      console.log(`File Processing Success! : ${data.fileName}`);
-      toast.success(`File Processing Success! : ${data.fileName}`, {
+      console.log(`File Processing Success! Chat Creation Success! : ${data.fileName}`);
+      toast.success(`File Processing Success! Chat Creation in progress... : ${data.fileName}`, {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -116,6 +120,8 @@ function FileUpload() {
         theme: 'dark',
         transition: Bounce,
       });
+      console.log('✅ - Pushing to /chat/id', response.chatId);
+      push(`/chat/${response.chatId}`);
     },
   });
   return (

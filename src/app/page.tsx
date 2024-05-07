@@ -23,9 +23,9 @@ export default async function Home() {
           </div>
           <div className={'mt-2 flex space-x-4'}>
             {userId && (
-              <>
+              <Link href={'/chat/1'}>
                 <Button className={`text-white`}>Go to chats</Button>
-              </>
+              </Link>
             )}
           </div>
           <p className={'mt-2 max-w-xl text-lg text-slate-600'}>
