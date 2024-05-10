@@ -66,7 +66,11 @@ export async function POST(request: NextRequest) {
     };
     const response = await openAiApi.createChatCompletion(params);
     console.log(' Create Chat Completion response', response);
-    const stream = OpenAIStream(response);
+    const stream = OpenAIStream(response, {
+      onStart: async () => {
+        console.log('🚨 - ');
+      },
+    });
     // const responseData: ChatResponse = {
     //   isSuccess: true,
     //   streamingTextResponse,
