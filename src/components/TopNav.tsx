@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { UserButton } from '@clerk/nextjs';
+import useLatestChatId from '@/hooks/use-latest-chat-id';
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -23,9 +24,11 @@ const components: { title: string; href: string; description: string }[] = [
 
 export type TopNavBarProps = {
   isUserSignedIn: boolean;
+  userId: string | null;
 };
 
-export default function TopNavBar(props: TopNavBarProps) {
+export default async function TopNavBar(props: TopNavBarProps) {
+  const chatId = await useLatestChatId(props.userId);
   return (
     <nav className="bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -44,7 +47,7 @@ export default function TopNavBar(props: TopNavBarProps) {
                     <ul className="grid gap-3 p-4 md:w-[300px] lg:w-[400px] lg:grid-cols-2">
                       {props.isUserSignedIn ? (
                         <>
-                          <ListItem key={'Chat'} title={'Chat'} href={'/chat/1'}>
+                          <ListItem key={'Chat'} title={'Chat'} href={`/chat/${chatId}`}>
                             View previous chats with PDF documents
                           </ListItem>
                         </>
