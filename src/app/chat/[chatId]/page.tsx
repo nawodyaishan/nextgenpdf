@@ -44,7 +44,7 @@ export default async function ChatPage({ params: { chatId } }: ChatPageProps) {
   const isPro = await checkSubscription();
 
   return (
-    <div className="flex max-h-screen overflow-scroll">
+    <div className="flex h-full min-h-screen overflow-hidden">
       <div className="flex max-h-screen w-full overflow-scroll">
         {/* chat sidebar */}
         <div className="max-w-xs flex-[1]">

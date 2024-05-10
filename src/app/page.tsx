@@ -6,10 +6,12 @@ import { LogIn } from 'lucide-react';
 import FileUpload from '@/components/FileUpload';
 import React from 'react';
 import useDynamicTheme from '@/hooks/use-dynamic-theme';
+import useLatestChatId from '@/hooks/use-latest-chat-id';
 
 export default async function Home() {
   const { userId } = auth();
   const { bgGradient } = useDynamicTheme();
+  const chatId = await useLatestChatId(userId);
 
   return (
     <div className={`min-h-screen w-screen bg-gradient-to-tr ${bgGradient}`}>
@@ -23,7 +25,7 @@ export default async function Home() {
           </div>
           <div className={'mt-2 flex space-x-4'}>
             {userId && (
-              <Link href={'/chat/1'}>
+              <Link href={`/chat/${chatId}`}>
                 <Button className={`text-white`}>Go to chats</Button>
               </Link>
             )}
