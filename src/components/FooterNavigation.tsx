@@ -30,6 +30,9 @@ export default function FooterNavigation() {
         <div className="mt-4 text-center">
           <p className="text-sm">&copy; {new Date().getFullYear()} NextGenPDF by Nawodya Ishan</p>
         </div>
+        <div className="mt-4 text-center">
+          <p className="text-sm"> v0.1.3</p>
+        </div>
       </div>
     </footer>
   );

@@ -27,7 +27,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <div className="flex min-h-screen flex-col">
-            <TopNav isUserSignedIn={!!userId} />
+            <TopNav userId={userId} isUserSignedIn={!!userId} />
             <main className="flex-1">{children}</main>
             <FooterNavigation />
           </div>
